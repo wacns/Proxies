@@ -1,6 +1,8 @@
 import requests
 import datetime
 import os
+import subprocess
+import time
 
 proxies_urls = [
     'https://raw.githubusercontent.com/mertguvencli/http-proxy-list/main/proxy-list/data.txt',
@@ -18,29 +20,29 @@ proxies_urls = [
     'https://raw.githubusercontent.com/proxy4parsing/proxy-list/main/http.txt',
     'https://raw.githubusercontent.com/yemixzy/proxy-list/main/proxies/http.txt'
 ]
+while True:
+    proxies = []
 
-proxies = []
+    for url in proxies_urls:
+        req = requests.get(url)
+        proxies.extend(req.text.split('\n'))
 
-for url in proxies_urls:
-    req = requests.get(url)
-    proxies.extend(req.text.split('\n'))
+    unique_proxies = set(proxies)
+    proxies = list(filter(lambda x: x != '' or x != "" , unique_proxies))
+    with open('proxies.txt', 'w') as file:
+        for proxy in proxies:
+            file.write("{}\n".format(proxy.replace("\r", "")))
 
-unique_proxies = set(proxies)
-proxies = list(filter(lambda x: x != '' or x != "" , unique_proxies))
-with open('proxies.txt', 'w') as file:
-    for proxy in proxies:
-        file.write("{}\n".format(proxy.replace("\r", "")))
+    commit_message = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S GMT+3")
+    readme_string = f"""# Proxies
+    An automated scraped proxies from various sources
 
-commit_message = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S GMT+3")
-readme_string = f"""# Proxies
-An automated scraped proxies from various sources
+    | SCRAPED PROXIES | {len(proxies)}            |
+    |-----------------|---------------------------|
+    | DATE            | {commit_message}          |"""
+    with open('README.md', 'w') as file:
+        file.write(readme_string)
 
-| SCRAPED PROXIES | {len(proxies)}            |
-|-----------------|---------------------------|
-| DATE            | {commit_message}          |"""
-with open('README.md', 'w') as file:
-    file.write(readme_string)
-
-os.system('git add .')
-os.system('git commit -m "{}"'.format(commit_message))
-os.system('git push')
+    subprocess.call(['git', 'add', '.'])
+    subprocess.call(['git', 'commit', '-m', commit_message])
+    subprocess.call(['git', 'push'])
