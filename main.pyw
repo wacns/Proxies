@@ -43,6 +43,7 @@ while True:
     with open('README.md', 'w') as file:
         file.write(readme_string)
 
-    subprocess.call(['git', 'add', '.'])
-    subprocess.call(['git', 'commit', '-m', commit_message])
-    subprocess.call(['git', 'push'])
+    subprocess.call(['git', 'add', '.'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.call(['git', 'commit', '-m', commit_message], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.call(['git', 'push'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(600)
