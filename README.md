@@ -1,6 +1,6 @@
 # Proxies
     An automated scraped proxies from various sources
 
-| SCRAPED PROXIES | 22476            |
+| SCRAPED PROXIES | 22504            |
 |-----------------|---------------------------|
-| DATE            | 2023-06-13 19:49:45 GMT+3          |
+| DATE            | 2023-06-13 20:00:04 GMT+3          |
