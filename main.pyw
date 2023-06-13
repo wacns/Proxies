@@ -37,13 +37,13 @@ while True:
     readme_string = f"""# Proxies
     An automated scraped proxies from various sources
 
-    | SCRAPED PROXIES | {len(proxies)}            |
-    |-----------------|---------------------------|
-    | DATE            | {commit_message}          |"""
+| SCRAPED PROXIES | {len(proxies)}            |
+|-----------------|---------------------------|
+| DATE            | {commit_message}          |"""
     with open('README.md', 'w') as file:
         file.write(readme_string)
 
-    subprocess.call(['git', 'add', '.'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.call(['git', 'commit', '-m', commit_message], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.call(['git', 'push'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.call(['git', 'add', '.'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+    subprocess.call(['git', 'commit', '-m', commit_message], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+    subprocess.call(['git', 'push'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
     time.sleep(600)
